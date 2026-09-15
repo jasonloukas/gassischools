@@ -51,5 +51,5 @@ export async function portalLoginAction(
     maxAge,
   });
 
-  redirect(`/portal/${token}/overview`);
+  redirect(`/portal/${token}/trip-info`);
 }

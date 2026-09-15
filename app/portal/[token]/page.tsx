@@ -38,7 +38,7 @@ export default async function PortalLoginPage({
     (session?.role === "school" && session.token === token);
 
   if (alreadyAuthorized) {
-    redirect(`/portal/${token}/overview`);
+    redirect(`/portal/${token}/trip-info`);
   }
 
   return (

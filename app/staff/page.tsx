@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { verifySession, SESSION_COOKIE_NAME } from "@/lib/session";
 import { logoutAction } from "@/app/actions/logout";
 
@@ -13,8 +14,10 @@ export default async function StaffHomePage() {
       <p className="mt-2 text-slate-600">
         Συνδεθήκατε ως {session?.role === "staff" ? session.email : ""}.
       </p>
-      <p className="mt-1 text-sm text-slate-500">
-        Εδώ θα μπει η λίστα trips (/staff/trips) στο Βήμα 3.
+      <p className="mt-4">
+        <Link href="/staff/trips" className="text-[#0d6b74] underline">
+          Δείτε τις ενεργές πύλες εκδρομών →
+        </Link>
       </p>
       <form action={logoutAction} className="mt-4">
         <button type="submit" className="text-sm underline">
