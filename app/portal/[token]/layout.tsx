@@ -10,6 +10,7 @@ const TABS: PortalTab[] = [
   { href: "trip-info", label: "Στοιχεία Εκδρομής" },
   { href: "contract", label: "Συμβόλαιο" },
   { href: "payments", label: "Δόσεις & Πληρωμές" },
+  { href: "name-list", label: "Name List" },
 ];
 
 export default async function PortalLayout({
