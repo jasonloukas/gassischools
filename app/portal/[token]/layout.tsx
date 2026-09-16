@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 const TABS: PortalTab[] = [
   { href: "trip-info", label: "Στοιχεία Εκδρομής" },
   { href: "contract", label: "Συμβόλαιο" },
+  { href: "payments", label: "Δόσεις & Πληρωμές" },
 ];
 
 export default async function PortalLayout({
