@@ -11,6 +11,7 @@ const TABS: PortalTab[] = [
   { href: "contract", label: "Συμβόλαιο" },
   { href: "payments", label: "Δόσεις & Πληρωμές" },
   { href: "name-list", label: "Name List" },
+  { href: "rooming", label: "Rooming List" },
 ];
 
 export default async function PortalLayout({
