@@ -5,13 +5,13 @@ import { PortalTabs, type PortalTab } from "./portal-tabs";
 
 export const dynamic = "force-dynamic";
 
-// Extended with one entry per tab as each is built (Βήμα 3).
 const TABS: PortalTab[] = [
   { href: "trip-info", label: "Στοιχεία Εκδρομής" },
   { href: "contract", label: "Συμβόλαιο" },
   { href: "payments", label: "Δόσεις & Πληρωμές" },
   { href: "name-list", label: "Name List" },
   { href: "rooming", label: "Rooming List" },
+  { href: "tickets", label: "Εισιτήρια" },
 ];
 
 export default async function PortalLayout({
