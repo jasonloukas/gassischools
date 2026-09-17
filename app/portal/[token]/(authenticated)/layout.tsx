@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPortalContext } from "@/lib/portal-context";
 import { logoutAction } from "@/app/actions/logout";
+import { BrandTopBar } from "@/components/brand-topbar";
 import { PortalTabs, type PortalTab } from "./portal-tabs";
 
 export const dynamic = "force-dynamic";
@@ -29,22 +30,23 @@ export default async function PortalLayout({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-lg font-semibold text-[#0d6b74]">GASSI Trip Portal</p>
-            <p className="text-xs text-slate-500">
-              {ctx.isStaff ? "Προσωπικό GASSI — πλήρη δικαιώματα" : "Σύνδεση σχολείου"}
-            </p>
-          </div>
-          <form action={logoutAction}>
-            <button type="submit" className="text-sm text-slate-500 underline">
-              Αποσύνδεση
-            </button>
-          </form>
-        </div>
+      <div className="bg-white">
+        <BrandTopBar
+          right={
+            <div className="flex items-center gap-3">
+              <p className="text-xs text-slate-500">
+                {ctx.isStaff ? "Προσωπικό GASSI — πλήρη δικαιώματα" : "Σύνδεση σχολείου"}
+              </p>
+              <form action={logoutAction}>
+                <button type="submit" className="text-sm text-slate-500 underline">
+                  Αποσύνδεση
+                </button>
+              </form>
+            </div>
+          }
+        />
         <PortalTabs token={params.token} tabs={TABS} />
-      </header>
+      </div>
       <main className="mx-auto max-w-5xl p-6">{children}</main>
     </div>
   );

@@ -60,7 +60,7 @@ export default async function ContractPage({
               href={signedUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-block text-sm text-[#0d6b74] underline"
+              className="inline-block text-sm text-brand-teal underline"
             >
               Άνοιγμα σε νέα καρτέλα
             </a>

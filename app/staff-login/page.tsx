@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifySession, SESSION_COOKIE_NAME } from "@/lib/session";
+import { BrandTopBar } from "@/components/brand-topbar";
 import { StaffLoginForm } from "./login-form";
 
 export const dynamic = "force-dynamic";
@@ -12,8 +13,11 @@ export default async function StaffLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <StaffLoginForm />
-    </main>
+    <div className="min-h-screen bg-slate-50">
+      <BrandTopBar />
+      <main className="flex items-center justify-center p-8">
+        <StaffLoginForm />
+      </main>
+    </div>
   );
 }

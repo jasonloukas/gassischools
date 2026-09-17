@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Gassi Trip Portal",
   description: "Πύλη εκδρομών GASSI",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

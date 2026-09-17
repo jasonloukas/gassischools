@@ -11,7 +11,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-[#0d6b74] px-4 py-2 text-white disabled:opacity-50"
+      className="rounded-md bg-brand-teal px-4 py-2 text-white disabled:opacity-50"
     >
       {pending ? "Αποθήκευση..." : "Αποθήκευση"}
     </button>

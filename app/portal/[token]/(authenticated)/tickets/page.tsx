@@ -101,7 +101,7 @@ export default async function TicketsPage({
                       href={signedUrls.get(t.id)}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-[#0d6b74] underline"
+                      className="text-brand-teal underline"
                     >
                       Άνοιγμα
                     </a>

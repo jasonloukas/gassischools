@@ -11,7 +11,7 @@ function AddButton() {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-[#0d6b74] px-3 py-1.5 text-sm text-white disabled:opacity-50"
+      className="rounded-md bg-brand-teal px-3 py-1.5 text-sm text-white disabled:opacity-50"
     >
       {pending ? "..." : "Προσθήκη εισιτηρίου"}
     </button>

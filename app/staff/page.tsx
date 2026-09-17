@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { verifySession, SESSION_COOKIE_NAME } from "@/lib/session";
-import { logoutAction } from "@/app/actions/logout";
 
 export const dynamic = "force-dynamic";
 
@@ -15,15 +14,10 @@ export default async function StaffHomePage() {
         Συνδεθήκατε ως {session?.role === "staff" ? session.email : ""}.
       </p>
       <p className="mt-4">
-        <Link href="/staff/trips" className="text-[#0d6b74] underline">
+        <Link href="/staff/trips" className="text-brand-teal underline">
           Δείτε τις ενεργές πύλες εκδρομών →
         </Link>
       </p>
-      <form action={logoutAction} className="mt-4">
-        <button type="submit" className="text-sm underline">
-          Αποσύνδεση
-        </button>
-      </form>
     </main>
   );
 }

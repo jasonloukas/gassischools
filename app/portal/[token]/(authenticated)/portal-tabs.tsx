@@ -25,7 +25,7 @@ export function PortalTabs({
             href={href}
             className={`whitespace-nowrap border-b-2 px-3 py-2 text-sm ${
               active
-                ? "border-[#0d6b74] font-medium text-[#0d6b74]"
+                ? "border-brand-gold font-medium text-brand-teal"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             }`}
           >

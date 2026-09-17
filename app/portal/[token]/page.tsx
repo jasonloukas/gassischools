@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { verifySession, SESSION_COOKIE_NAME } from "@/lib/session";
+import { BrandTopBar } from "@/components/brand-topbar";
 import { PinForm } from "./pin-form";
 
 export const dynamic = "force-dynamic";
@@ -26,9 +27,12 @@ export default async function PortalLoginPage({
 
   if (error || !portal || !portal.is_active) {
     return (
-      <main className="flex min-h-screen items-center justify-center p-8">
-        <p className="text-slate-600">Μη έγκυρος ή ανενεργός σύνδεσμος εκδρομής.</p>
-      </main>
+      <div className="min-h-screen bg-slate-50">
+        <BrandTopBar />
+        <main className="flex items-center justify-center p-8">
+          <p className="text-slate-600">Μη έγκυρος ή ανενεργός σύνδεσμος εκδρομής.</p>
+        </main>
+      </div>
     );
   }
 
@@ -42,8 +46,11 @@ export default async function PortalLoginPage({
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <PinForm token={token} />
-    </main>
+    <div className="min-h-screen bg-slate-50">
+      <BrandTopBar />
+      <main className="flex items-center justify-center p-8">
+        <PinForm token={token} />
+      </main>
+    </div>
   );
 }

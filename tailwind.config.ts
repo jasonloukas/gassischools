@@ -6,7 +6,14 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          teal: "#0d6b74",
+          gold: "#b8965a",
+        },
+      },
+    },
   },
   plugins: [],
 };

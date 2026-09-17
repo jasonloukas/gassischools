@@ -82,7 +82,7 @@ export function TicketRowForm({
 
       <div className="col-span-11 mt-1">
         {fileUrl ? (
-          <a href={fileUrl} target="_blank" rel="noreferrer" className="text-xs text-[#0d6b74] underline">
+          <a href={fileUrl} target="_blank" rel="noreferrer" className="text-xs text-brand-teal underline">
             Τρέχον PDF
           </a>
         ) : (
