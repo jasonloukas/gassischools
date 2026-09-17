@@ -25,6 +25,7 @@ export async function staffLoginAction(
   });
 
   if (error || !data.user) {
+    console.error("staffLoginAction signIn error", error);
     return { error: "Λάθος στοιχεία σύνδεσης." };
   }
 
