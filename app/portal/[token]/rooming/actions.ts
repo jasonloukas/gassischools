@@ -132,7 +132,7 @@ export async function assignStudentAction(
       .maybeSingle(),
     supabase
       .from("trip_rooming_list")
-      .select("id")
+      .select("id, capacity")
       .eq("id", roomingListId)
       .eq("tender_id", ctx.tenderId)
       .maybeSingle(),
@@ -140,6 +140,25 @@ export async function assignStudentAction(
 
   if (!student || !room) {
     return { error: "Μη έγκυρος μαθητής ή δωμάτιο." };
+  }
+
+  if (room.capacity !== null) {
+    // Exclude the student's own existing assignment, in case they're
+    // being re-assigned to the same room they're already in.
+    const { count, error: countError } = await supabase
+      .from("trip_rooming_assignments")
+      .select("id", { count: "exact", head: true })
+      .eq("rooming_list_id", roomingListId)
+      .neq("student_id", studentId);
+
+    if (countError) {
+      console.error("assignStudentAction count error", countError);
+      return { error: "Σφάλμα ελέγχου χωρητικότητας." };
+    }
+
+    if ((count ?? 0) >= room.capacity) {
+      return { error: "Το δωμάτιο έχει φτάσει τη μέγιστη χωρητικότητά του." };
+    }
   }
 
   const { error } = await supabase

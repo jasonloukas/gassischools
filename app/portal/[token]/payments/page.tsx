@@ -22,6 +22,7 @@ type StudentPayment = {
   amount_due: number | null;
   amount_paid: number | null;
   last_payment_date: string | null;
+  status: string | null;
 };
 
 function formatDate(value: string | null | undefined) {
@@ -38,23 +39,18 @@ function formatAmount(value: number | null | undefined) {
   return `${value.toFixed(2)} €`;
 }
 
-// Manual for now — Βήμα 4 moves this to a DB trigger so it's always
-// authoritative regardless of what writes the row.
-function deriveStatus(amountDue: number | null, amountPaid: number | null) {
-  const due = amountDue ?? 0;
-  const paid = amountPaid ?? 0;
-  if (paid <= 0) return "pending" as const;
-  if (paid >= due && due > 0) return "paid" as const;
-  return "partial" as const;
+function isOverdue(dueDate: string | null | undefined) {
+  if (!dueDate) return false;
+  return new Date(dueDate) < new Date(new Date().toDateString());
 }
 
-const STATUS_LABELS = {
+const STATUS_LABELS: Record<string, string> = {
   pending: "Εκκρεμεί",
   partial: "Μερική",
   paid: "Εξοφλήθηκε",
 };
 
-const STATUS_STYLES = {
+const STATUS_STYLES: Record<string, string> = {
   pending: "bg-slate-100 text-slate-600",
   partial: "bg-amber-100 text-amber-700",
   paid: "bg-emerald-100 text-emerald-700",
@@ -80,7 +76,7 @@ export default async function PaymentsPage({
       .order("installment_number", { ascending: true }),
     supabase
       .from("trip_student_payments")
-      .select("id, student_full_name, amount_due, amount_paid, last_payment_date")
+      .select("id, student_full_name, amount_due, amount_paid, last_payment_date, status")
       .eq("tender_id", ctx.tenderId)
       .order("student_full_name", { ascending: true }),
   ]);
@@ -94,6 +90,7 @@ export default async function PaymentsPage({
 
   const installments: Installment[] = installmentsData ?? [];
   const payments: StudentPayment[] = paymentsData ?? [];
+  const anyOverdueInstallment = installments.some((i) => isOverdue(i.due_date));
 
   return (
     <div className="space-y-8">
@@ -106,6 +103,7 @@ export default async function PaymentsPage({
                 key={installment.id}
                 token={params.token}
                 installment={installment}
+                overdue={isOverdue(installment.due_date)}
               />
             ))}
             {installments.length === 0 ? (
@@ -127,7 +125,10 @@ export default async function PaymentsPage({
               {installments.map((i) => (
                 <tr key={i.id} className="border-b border-slate-100">
                   <td className="py-2">{i.installment_number ?? "—"}</td>
-                  <td>{formatDate(i.due_date)}</td>
+                  <td>
+                    {isOverdue(i.due_date) ? "🔴 " : ""}
+                    {formatDate(i.due_date)}
+                  </td>
                   <td>{formatAmount(i.amount)}</td>
                   <td>{i.description ?? "—"}</td>
                 </tr>
@@ -153,6 +154,7 @@ export default async function PaymentsPage({
                 key={payment.id}
                 token={params.token}
                 payment={payment}
+                overdue={anyOverdueInstallment}
               />
             ))}
             {payments.length === 0 ? (
@@ -173,18 +175,22 @@ export default async function PaymentsPage({
             </thead>
             <tbody>
               {payments.map((p) => {
-                const status = deriveStatus(p.amount_due, p.amount_paid);
+                const status = p.status ?? "pending";
+                const overdue = anyOverdueInstallment && status !== "paid";
                 return (
                   <tr key={p.id} className="border-b border-slate-100">
-                    <td className="py-2">{p.student_full_name}</td>
+                    <td className="py-2">
+                      {overdue ? "🔴 " : ""}
+                      {p.student_full_name}
+                    </td>
                     <td>{formatAmount(p.amount_due)}</td>
                     <td>{formatAmount(p.amount_paid)}</td>
                     <td>{formatDate(p.last_payment_date)}</td>
                     <td>
                       <span
-                        className={`rounded-full px-2 py-0.5 text-xs ${STATUS_STYLES[status]}`}
+                        className={`rounded-full px-2 py-0.5 text-xs ${STATUS_STYLES[status] ?? STATUS_STYLES.pending}`}
                       >
-                        {STATUS_LABELS[status]}
+                        {STATUS_LABELS[status] ?? status}
                       </span>
                     </td>
                   </tr>

@@ -25,6 +25,7 @@ function SaveButton() {
 export function InstallmentRowForm({
   token,
   installment,
+  overdue,
 }: {
   token: string;
   installment: {
@@ -34,6 +35,7 @@ export function InstallmentRowForm({
     amount: number | null;
     description: string | null;
   };
+  overdue: boolean;
 }) {
   const [state, formAction] = useFormState(
     updateInstallmentAction.bind(null, token, installment.id),
@@ -52,12 +54,15 @@ export function InstallmentRowForm({
         placeholder="Α/Α"
         className="col-span-1 rounded border border-slate-300 px-2 py-1"
       />
-      <input
-        name="due_date"
-        type="date"
-        defaultValue={installment.due_date ?? ""}
-        className="col-span-3 rounded border border-slate-300 px-2 py-1"
-      />
+      <span className="col-span-3 flex items-center gap-1">
+        <input
+          name="due_date"
+          type="date"
+          defaultValue={installment.due_date ?? ""}
+          className="w-full rounded border border-slate-300 px-2 py-1"
+        />
+        {overdue ? <span title="Ληξιπρόθεσμη">🔴</span> : null}
+      </span>
       <input
         name="amount"
         type="number"
